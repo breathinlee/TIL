@@ -16,4 +16,6 @@ def quicksort(nums):
 
     return quicksort(less) + equal + quicksort(more)
 
-    
+
+numbers = [0, 55, 22, 33, 2, 1, 10, 26, 42]
+print(quicksort(numbers))
