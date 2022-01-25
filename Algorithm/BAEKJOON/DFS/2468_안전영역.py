@@ -4,7 +4,7 @@ sys.setrecursionlimit(100000)
 dr = [1, -1, 0, 0]
 dc = [0, 0, 1, -1]
 
-def dfs(r, c, h):
+def dfs(r, c):
     visited[r][c] = 1
 
     for k in range(4):
@@ -13,21 +13,21 @@ def dfs(r, c, h):
 
         if 0 <= nr < N and 0 <= nc < N:
             if not visited[nr][nc] and arr[nr][nc] > h:
-                dfs(nr, nc, h)
+                dfs(nr, nc)
 
 
 N = int(input())
 arr = [list(map(int, input().split())) for _ in range(N)]
 result = 0
 
-for i in range(101):
+for h in range(101):
     cnt = 0
     visited = [[0] * N for _ in range(N)]
 
     for r in range(N):
         for c in range(N):
-            if arr[r][c] > i and not visited[r][c]:
-                dfs(r, c, i)
+            if arr[r][c] > h and not visited[r][c]:
+                dfs(r, c)
                 cnt += 1
 
     if result < cnt:
