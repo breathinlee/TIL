@@ -1,3 +1,36 @@
+# sol
+
+from collections import defaultdict
+
+def dfs(departure, airline_tickets, visited, tickets, route):
+    if len(route) == len(tickets) + 1:
+        return route
+
+    for idx, next in enumerate(airline_tickets[departure]):
+        if not visited[departure][idx]:
+            visited[departure][idx] = 1
+            result = dfs(next, airline_tickets, visited, tickets, route + [next])
+            visited[departure][idx] = 0
+
+            if result: return result
+
+
+def solution(tickets):
+    visited = defaultdict(list)
+    airline_tickets = defaultdict(list)
+
+    for start, end in tickets:
+        airline_tickets[start].append(end)
+        visited[start].append(0)
+
+    for key in airline_tickets:
+        airline_tickets[key].sort()
+
+    answer = dfs('ICN', airline_tickets, visited, tickets, ['ICN'])
+
+    return answer
+    
+
 # tc 1,2 시간 초과..
 
 def solve(departure, airline_tickets, visited, tickets):
