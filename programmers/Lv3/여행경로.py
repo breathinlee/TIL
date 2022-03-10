@@ -107,3 +107,37 @@ def solution(tickets):
     solve('ICN', airline_tickets, visited, tickets)
 
     return answer
+
+
+# tc 1, 2 런타임에러
+
+def dfs(departure, airline_tickets, visited, tickets, route):
+    if len(route) == len(tickets) + 1:
+        return route
+
+    for idx, next in enumerate(airline_tickets[departure]):
+        if not visited[departure][idx]:
+            visited[departure][idx] = 1
+            result = dfs(next, airline_tickets, visited, tickets, route + [next])
+            visited[departure][idx] = 0
+
+            if result: return result
+
+
+def solution(tickets):
+    visited = {}
+    airline_tickets = {}
+    for ticket in tickets:
+        if ticket[0] not in airline_tickets:
+            airline_tickets[ticket[0]] = [ticket[1]]
+            visited[ticket[0]] = [0]
+        else:
+            airline_tickets[ticket[0]].append(ticket[1])
+            visited[ticket[0]].append(0)
+
+    for key in airline_tickets:
+        airline_tickets[key].sort()
+
+    answer = dfs('ICN', airline_tickets, visited, tickets, ['ICN'])
+
+    return answer
