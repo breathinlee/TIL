@@ -22,3 +22,18 @@ for i in range(2, N+1):
 
 answer = sum(dp[N]) % 9901
 print(answer)
+
+
+# sol 2
+
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+dp = [0] * (N+1)
+dp[0], dp[1] = 1, 3
+
+for k in range(2, N+1):
+    dp[k] = (2 * dp[k-1] + dp[k-2]) % 9901
+
+print(dp[N] % 9901)
