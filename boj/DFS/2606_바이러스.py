@@ -1,3 +1,5 @@
+# 인접행렬
+
 def dfs(v):
     global cnt
     visited[v] = 1
@@ -20,3 +22,35 @@ for _ in range(E):
     G[b][a] = 1
 
 print(dfs(1))
+
+
+# 인접리스트
+
+import sys
+
+input = sys.stdin.readline
+
+def check(node):
+    global cnt
+
+    visited[node] = 1
+
+    for w in graph[node]:
+        if not visited[w]:
+            cnt += 1
+            check(w)
+
+
+N = int(input())
+M = int(input())
+graph = [[] for _ in range(N+1)]
+for _ in range(M):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+
+cnt = 0
+visited = [0] * (N+1)
+check(1)
+
+print(cnt)
