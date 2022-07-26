@@ -1,6 +1,8 @@
 import sys
 sys.setrecursionlimit(1000000)
 
+input = sys.stdin.readline
+
 dr = [1, -1, 0, 0]
 dc = [0, 0, 1, -1]
 
@@ -32,8 +34,8 @@ def weakness_dfs(r, c):
                     weakness_dfs(nr, nc)
 
 
-N = int(sys.stdin.readline())
-area = list(sys.stdin.readline().rstrip() for _ in range(N))
+N = int(input())
+area = list(input().rstrip() for _ in range(N))
 
 cnt = 0
 weakness_cnt = 0
