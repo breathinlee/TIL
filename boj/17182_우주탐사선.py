@@ -12,7 +12,7 @@ def find_Route(start, next, time, cnt):
         return
 
     for n in range(N):
-        if n != next and not visit[n]:
+        if not visit[n]:
             visit[n] = 1
             find_Route(next, n, time + graph[next][n], cnt + 1)
             visit[n] = 0
@@ -33,7 +33,7 @@ visit[K] = 1
 total = 1e7
 
 for i in range(N):
-    if i != K and not visit[i]:
+    if not visit[i]:
         visit[i] = 1
         find_Route(K, i, graph[K][i], 1)
         visit[i] = 0
