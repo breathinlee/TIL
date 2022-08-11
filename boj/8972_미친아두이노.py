@@ -1,82 +1,78 @@
-# 미해결
-
-from collections import deque
 import sys
+input = sys.stdin.readline
 
 dr = [0, 1, 1, 1, 0, 0, 0, -1, -1, -1]
 dc = [0, -1, 0, 1, -1, 0, 1, -1, 0, 1]
 
-def moving(start):
+def moving(idx):
     global c_arduino
 
-    while directions:
-        dir = directions.popleft()
+    next_arduino = set()
+    bomb = set()
 
-        r, c = start[0], start[1]
-        nr, nc = r + dr[int(dir)], c + dc[int(dir)]
+    for cr, cc in c_arduino:
+        board[cr][cc] = '.'
+        ret, d = 1e3, 0
+        for s in range(1, 10):
+            cnr, cnc = cr + dr[s], cc + dc[s]
 
-        if dir != '5' and 0 <= nr < R and 0 <= nc < C:
-            if board[nr][nc] == '.':
-                board[r][c] = '.'
-                board[nr][nc] = 'I'
-                start = (nr, nc)
+            if abs(nr - cnr) + abs(nc - cnc) <= ret:
+                ret = abs(nr - cnr) + abs(nc - cnc)
+                d = s
 
-            elif board[nr][nc] == 'R':
-                return
+        if (cr + dr[d], cc + dc[d]) == (nr, nc):
+            print('{} {}'.format('kraj', idx+1))
+            return False
 
-        next_arduino = deque()
-        bomb = set()
+        elif (cr + dr[d], cc + dc[d]) in next_arduino:
+            bomb.add((cr + dr[d], cc + dc[d]))
 
-        while c_arduino:
-            ret, d = 1e3, 0
-            cr, cc = c_arduino.popleft()
-            for s in range(1, 10):
-                cnr, cnc = cr + dr[s], cc + dc[s]
+        else:
+            next_arduino.add((cr + dr[d], cc + dc[d]))
 
-                if s != 5 and 0 <= cnr < R and 0 <= cnc < C:
-                    if abs(nr - cnr) + abs(nc - cnc) < ret:
-                        ret = abs(nr - cnr) + abs(nc - cnc)
-                        d = s
+    if len(bomb):
+        for x, y in bomb:
+            if (x, y) in next_arduino:
+                next_arduino.remove((x, y))
 
-            if board[cr + dr[d]][cc + dc[d]] == '.':
-                next_arduino.append((cr + dr[d], cc + dc[d]))
-                board[cr][cc] = '.'
-                board[cr + dr[d]][cc + dc[d]] = 'R'
-            elif board[cr + dr[d]][cc + dc[d]] == 'R':
-                board[cr][cc] = '.'
-                bomb.add((cr + dr[d], cc + dc[d]))
+    for x, y in next_arduino:
+        board[x][y] = 'R'
 
-            elif board[cr + dr[d]][cc + dc[d]] == 'I':
-                return
+    c_arduino = next_arduino
 
-        if len(bomb):
-            for x, y in bomb:
-                if (x, y) in next_arduino:
-                    next_arduino.remove((x, y))
-                    board[x][y] = '.'
-
-        c_arduino = next_arduino
-
-    return
+    return True
 
 
 R, C = map(int, input().split())
-board = [list(input()) for _ in range(R)]
-directions = deque(list(input()))
-answer = len(directions)
-c_arduino = deque()
+board = [list(input().strip()) for _ in range(R)]
+directions = list(input().strip())
+c_arduino = set()
 
 for r in range(R):
     for c in range(C):
         if board[r][c] == 'I':
             start = (r, c)
         elif board[r][c] == 'R':
-            c_arduino.append((r, c))
+            c_arduino.add((r, c))
 
-moving(start)
+for idx, dir in enumerate(directions):
+    dir = int(dir)
 
-if len(directions):
-    print('kraj', answer - len(directions))
-else:
-    for r in range(R):
-        print(''.join(board[r]))
+    r, c = start[0], start[1]
+    nr, nc = r + dr[dir], c + dc[dir]
+
+    if (nr, nc) in c_arduino:
+        print('{} {}'.format('kraj', idx+1))
+        exit()
+
+    board[r][c] = '.'
+    board[nr][nc] = 'I'
+    start = (nr, nc)
+
+    flag = moving(idx)
+
+    if not flag:
+        exit()
+
+for r in range(R):
+    print(''.join(board[r]))
