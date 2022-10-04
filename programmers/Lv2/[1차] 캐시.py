@@ -1,12 +1,12 @@
 # LRU(Least Recently Used) 알고리즘
 
 def solution(cacheSize, cities):
-    answer = 0
-    cache = []
-    
     if cacheSize == 0:
         return len(cities) * 5
     
+    answer = 0
+    cache = []
+
     for city in cities:
         city = city.lower()
         if city in cache:
