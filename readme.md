@@ -1,4 +1,4 @@
-## python-algorithm
+## algorithm
 
 > 알고리즘 공부를 위한 repository
 
@@ -27,4 +27,4 @@
 
 - programmers 내 문제 풀이
 - Lv1, Lv2, Lv3 
-- 추후 SQL 고득점 Kit 추가 예정
+- SQL 고득점 Kit
