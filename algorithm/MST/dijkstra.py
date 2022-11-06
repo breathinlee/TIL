@@ -29,11 +29,11 @@ def dijkstra():
             if not visited[i] and min_value > dist[i]:
                 min_idx = i
                 min_value = dist[i]
-    visited[min_idx] = 1
-    
-    for j in range(V+1):
-        if not visited[j] and dist[j] > dist[min_idx] + G[min_idx][j]:   # 만약 j번 째를 방문하지 않았고 가려는 곳이 더 짧은 거리로 이동 가능하다면
-            dist[j] = dist[min_idx] + G[min_idx][j]
+        visited[min_idx] = 1
+        
+        for j in range(V+1):
+            if not visited[j] and dist[j] > dist[min_idx] + G[min_idx][j]:   # 만약 j번 째를 방문하지 않았고 가려는 곳이 더 짧은 거리로 이동 가능하다면
+                dist[j] = dist[min_idx] + G[min_idx][j]
 
     return dist[V]
 
